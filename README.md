@@ -1,67 +1,67 @@
 # Portgolio-manager
 
-Personal backend project for demonstrating my engineering skills.
+Личный backend-проект для демонстрации моих инженерных навыков.
 
-## Stack
+## Стек
 
 - PHP 8.4
 - Laravel + Apiato
 - Filament Admin Panel (`/admin`)
 - MySQL
 
-## Project Status
+## Статус проекта
 
-Base project setup only. Business features are intentionally not implemented yet.
+Только базовая настройка проекта. Бизнес-функционал пока не реализован.
 
-## Quick Start
+## Быстрый старт
 
-1. Install dependencies:
+1. Установить зависимости:
 
 ```bash
 composer install
 ```
 
-2. Create environment file:
+2. Создать файл окружения:
 
 ```bash
 cp .env.example .env
 ```
 
-3. Generate app key:
+3. Сгенерировать ключ приложения:
 
 ```bash
 php artisan key:generate
 ```
 
-4. Configure database in `.env` and run migrations:
+4. Настроить базу данных в `.env` и выполнить миграции:
 
 ```bash
 php artisan migrate
 ```
 
-5. Publish Filament assets:
+5. Опубликовать ассеты Filament:
 
 ```bash
 php artisan filament:assets
 ```
 
-6. Create admin user:
+6. Создать администратора:
 
 ```bash
 php artisan make:filament-user --panel=admin
 ```
 
-7. Run local server:
+7. Запустить локальный сервер:
 
 ```bash
 php artisan serve
 ```
 
-Admin panel URL: `http://localhost:8000/admin`
+URL админ-панели: `http://localhost:8000/admin`
 
-## Local .env recommendation
+## Рекомендуемые настройки `.env` для локальной разработки
 
-For local development (if DB cache/session is not configured yet):
+Если еще не настроены DB-сессии/кэш:
 
 ```env
 SESSION_DRIVER=file
@@ -69,6 +69,6 @@ CACHE_STORE=file
 QUEUE_CONNECTION=sync
 ```
 
-## Author
+## Автор
 
 Alexander Bubnov
