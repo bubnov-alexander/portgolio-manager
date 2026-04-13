@@ -1,74 +1,128 @@
-# Portgolio-manager
+# Portfolio Manager
 
-Личный backend-проект для демонстрации моих инженерных навыков.
+Личный backend-проект портфолио на Laravel + Apiato с публичной страницей, админ-панелью Filament и API/WEB-аутентификацией.
 
-## Стек
+## Что реализовано сейчас
 
-- PHP 8.4
-- Laravel + Apiato
-- Filament Admin Panel (`/admin`)
+- Публичная WEB-страница (`/`) с hero/contacts/текущей разработкой.
+- Данные публичной страницы подтягиваются из `Spatie Laravel Settings`:
+  - `ProfileSettings`
+  - `ContactSettings`
+- Логика подготовки данных для welcome вынесена в Task:
+  - `App\Containers\AppSection\Authentication\Tasks\BuildHomePageDataTask`
+- Filament Admin Panel (`/admin`) с отдельными страницами управления настройками:
+  - `ManageProfileSettings`
+  - `ManageContactSettings`
+- Контейнеры Apiato:
+  - `Authentication` (WEB + API auth, Passport)
+  - `Authorization` (roles/permissions)
+- Подключены Telescope, Passport, Spatie MediaLibrary, Spatie Settings.
+
+## Технологии
+
+- PHP `^8.4`
+- Laravel 12 + Apiato Core `^13.1`
+- Filament `^5.0`
+- Spatie Laravel Settings `^3.7`
+- Laravel Passport `^13.0`
 - MySQL
+- Tailwind CSS + Vite
 
-## Статус проекта
+## Структура проекта (кратко)
 
-Только базовая настройка проекта. Бизнес-функционал пока не реализован.
+- `app/Containers` — бизнес-модули Apiato (Actions/Tasks/Routes/Tests).
+- `app/Ship` — общая инфраструктура проекта.
+- `app/Filament` — ресурсы и страницы админ-панели.
+- `app/Settings` — классы групп настроек (`ProfileSettings`, `ContactSettings`).
+- `database/settings` — миграции значений Spatie Settings.
+- `resources` — фронтенд-ассеты (CSS/JS).
 
-## Быстрый старт
+## Локальный запуск
 
-1. Установить зависимости:
+1. Установить зависимости PHP:
 
 ```bash
 composer install
 ```
 
-2. Создать файл окружения:
+2. Установить frontend-зависимости:
+
+```bash
+npm install
+```
+
+3. Подготовить `.env`:
 
 ```bash
 cp .env.example .env
-```
-
-3. Сгенерировать ключ приложения:
-
-```bash
 php artisan key:generate
 ```
 
-4. Настроить базу данных в `.env` и выполнить миграции:
+4. Настроить подключение к MySQL в `.env`.
+
+5. Выполнить миграции и сиды:
 
 ```bash
-php artisan migrate
+php artisan migrate --seed
 ```
 
-5. Опубликовать ассеты Filament:
+6. Опубликовать ассеты Filament (если нужно после установки/обновления):
 
 ```bash
 php artisan filament:assets
 ```
 
-6. Создать администратора:
+7. Создать пользователя для входа в админ-панель:
 
 ```bash
 php artisan make:filament-user --panel=admin
 ```
 
-7. Запустить локальный сервер:
+8. Запустить приложение:
 
 ```bash
 php artisan serve
+npm run dev
 ```
 
-URL админ-панели: `http://localhost:8000/admin`
+## Основные URL
 
-## Рекомендуемые настройки `.env` для локальной разработки
+- Публичная страница: `http://localhost:8000/`
+- Filament: `http://localhost:8000/admin`
+- Telescope: `http://localhost:8000/telescope`
 
-Если еще не настроены DB-сессии/кэш:
+## Настройки публичной страницы
 
-```env
-SESSION_DRIVER=file
-CACHE_STORE=file
-QUEUE_CONNECTION=sync
+Публичный экран использует данные из `Spatie Laravel Settings`.
+
+- `profile.*`:
+  - `full_name`, `nickname`, `job_title`, `short_bio`, `full_bio`, `location`, `status`, `is_available_for_work`
+- `contact.*`:
+  - `email`, `phone`, `telegram`, `github_url`, `website_url`
+
+Редактирование выполняется через Filament-страницы настроек.
+
+## Полезные команды
+
+```bash
+# Тесты
+php artisan test
+
+# Статический анализ / quality tools (по необходимости)
+composer fixer
+composer ide-helper
+
+# Сборка frontend
+npm run build
 ```
+
+## Примечания
+
+- В проекте используются Apiato-миграции Passport из контейнера `Authentication`.
+- Для `tailwind` учитываются Blade-файлы контейнеров (`./app/Containers/**/*.blade.php`).
+- Если фронтенд-изменения не применились, проверьте `npm run dev` / `npm run build`.
 
 ## Автор
 
-Alexander Bubnov
+Alexander Bubnov  
+Email: `alexunderbubnov@gmail.com`

@@ -32,6 +32,16 @@ final class User extends ParentUserModel implements FilamentUser
         return new UserCollection($models);
     }
 
+    public function getName(): string|null
+    {
+        return $this->name;
+    }
+
+    public function getEmail(): string|null
+    {
+        return $this->email;
+    }
+
     /**
      * Allows Passport to find the user by email (case-insensitive).
      */
