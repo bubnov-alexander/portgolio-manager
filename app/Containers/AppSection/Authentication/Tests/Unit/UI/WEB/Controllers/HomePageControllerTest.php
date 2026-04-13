@@ -13,8 +13,12 @@ final class HomePageControllerTest extends UnitTestCase
     {
         $controller = app(HomePageController::class);
 
-        $view = $controller->__invoke();
+        $view = app()->call($controller);
 
         $this->assertSame('appSection@authentication::home', $view->name());
+        $this->assertArrayHasKey('profile', $view->getData());
+        $this->assertArrayHasKey('contact', $view->getData());
+        $this->assertArrayHasKey('heroName', $view->getData());
+        $this->assertArrayHasKey('contacts', $view->getData());
     }
 }
