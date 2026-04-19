@@ -16,17 +16,22 @@ class UsersTable
         return $table
             ->columns([
                 TextColumn::make('id')
+                    ->label('ID')
                     ->sortable(),
                 TextColumn::make('name')
+                    ->label('Имя')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('email')
+                    ->label('Электронная почта')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('email_verified_at')
+                    ->label('Почта подтверждена')
                     ->dateTime()
                     ->sortable(),
                 TextColumn::make('created_at')
+                    ->label('Создан')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
