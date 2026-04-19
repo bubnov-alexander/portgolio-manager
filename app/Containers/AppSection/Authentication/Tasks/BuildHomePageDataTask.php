@@ -2,6 +2,9 @@
 
 namespace App\Containers\AppSection\Authentication\Tasks;
 
+use App\Containers\AppSection\Portfolio\Tasks\ListPublishedProjectsTask;
+use App\Containers\AppSection\Project\Models\Project;
+use App\Containers\AppSection\Technology\Models\Technology;
 use App\Settings\ContactSettings;
 use App\Settings\ProfileSettings;
 use App\Ship\Parents\Tasks\Task as ParentTask;
@@ -9,6 +12,11 @@ use Illuminate\Support\Str;
 
 final class BuildHomePageDataTask extends ParentTask
 {
+    public function __construct(
+        private readonly ListPublishedProjectsTask $listPublishedProjectsTask,
+    ) {
+    }
+
     public function run(ProfileSettings $profileSettings, ContactSettings $contactSettings): array
     {
         $fullName = $this->normalize($profileSettings->getFullName()) ?? 'Your Name';
@@ -68,23 +76,20 @@ final class BuildHomePageDataTask extends ParentTask
             ],
         ];
 
-        $projects = [
-            [
-                'title' => 'Portfolio Manager',
-                'description' => 'Админ-панель и публичная витрина с динамическими настройками профиля и контактов.',
-                'stack' => 'Laravel · Apiato · Filament',
-            ],
-            [
-                'title' => 'Content Pipeline',
-                'description' => 'Поток управления медиа и публикациями: загрузка, хранение и подготовка контента для витрины.',
-                'stack' => 'Laravel · MediaLibrary · MySQL',
-            ],
-            [
-                'title' => 'Auth & API Core',
-                'description' => 'Базовая инфраструктура авторизации и API-слоя для безопасного доступа и масштабирования.',
-                'stack' => 'Passport · REST · Docker',
-            ],
-        ];
+        $projects = collect($this->listPublishedProjectsTask->run(3))
+            ->take(3)
+            ->map(static function (Project $project): array {
+                return [
+                    'title' => $project->getTitle(),
+                    'description' => $project->getShortDescription(),
+                    'stack' => $project
+                        ->getTechnologies()
+                        ->map(static fn (Technology $technology): string => $technology->getName())
+                        ->implode(' · '),
+                    'slug' => $project->getSlug(),
+                ];
+            })
+            ->all();
 
         return [
             'profile' => $profileSettings,
