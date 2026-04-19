@@ -12,7 +12,7 @@ final class RoleAdminTransformer extends RoleTransformer
         return Arr::add(
             parent::transform($role),
             'guard_name',
-            $role->guard_name,
+            $role->getGuardName(),
         );
     }
 }

@@ -14,7 +14,7 @@ final class PermissionAdminTransformer extends PermissionTransformer
         return Arr::add(
             parent::transform($permission),
             'guard_name',
-            $permission->guard_name,
+            $permission->getGuardName(),
         );
     }
 }
