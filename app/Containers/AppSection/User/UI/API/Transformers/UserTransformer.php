@@ -22,19 +22,19 @@ class UserTransformer extends ParentTransformer
         return [
             'type' => $user->getResourceKey(),
             'id' => $user->getHashedKey(),
-            'name' => $user->name,
-            'email' => $user->email,
-            'email_verified_at' => $user->email_verified_at,
+            'name' => $user->getName(),
+            'email' => $user->getEmail(),
+            'email_verified_at' => $user->getEmailVerifiedAt(),
         ];
     }
 
     public function includeRoles(User $user): Collection
     {
-        return $this->collection($user->roles, new RoleTransformer());
+        return $this->collection($user->getRoles(), new RoleTransformer());
     }
 
     public function includePermissions(User $user): Collection
     {
-        return $this->collection($user->permissions, new PermissionTransformer());
+        return $this->collection($user->getPermissions(), new PermissionTransformer());
     }
 }

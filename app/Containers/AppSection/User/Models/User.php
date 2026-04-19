@@ -3,11 +3,15 @@
 namespace App\Containers\AppSection\User\Models;
 
 use App\Containers\AppSection\Authorization\Enums\Role as RoleEnum;
+use App\Containers\AppSection\Authorization\Models\Permission;
+use App\Containers\AppSection\Authorization\Models\Role;
 use App\Containers\AppSection\User\Data\Collections\UserCollection;
 use App\Ship\Parents\Models\UserModel as ParentUserModel;
+use Carbon\CarbonInterface;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 final class User extends ParentUserModel implements FilamentUser
 {
@@ -40,6 +44,42 @@ final class User extends ParentUserModel implements FilamentUser
     public function getEmail(): string|null
     {
         return $this->email;
+    }
+
+    public function getEmailVerifiedAt(): CarbonInterface|null
+    {
+        return $this->email_verified_at;
+    }
+
+    public function getRealId(): int
+    {
+        return $this->id;
+    }
+
+    public function getCreatedAt(): CarbonInterface|null
+    {
+        return $this->created_at;
+    }
+
+    public function getUpdatedAt(): CarbonInterface|null
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * @return EloquentCollection<int, Role>
+     */
+    public function getRoles(): EloquentCollection
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @return EloquentCollection<int, Permission>
+     */
+    public function getPermissions(): EloquentCollection
+    {
+        return $this->permissions;
     }
 
     /**

@@ -19,14 +19,14 @@ class RoleTransformer extends ParentTransformer
         return [
             'type' => $role->getResourceKey(),
             'id' => $role->getHashedKey(),
-            'name' => $role->name,
-            'display_name' => $role->display_name,
-            'description' => $role->description,
+            'name' => $role->getName(),
+            'display_name' => $role->getDisplayName(),
+            'description' => $role->getDescription(),
         ];
     }
 
     public function includePermissions(Role $role): Collection
     {
-        return $this->collection($role->permissions, new PermissionAdminTransformer());
+        return $this->collection($role->getPermissions(), new PermissionAdminTransformer());
     }
 }
