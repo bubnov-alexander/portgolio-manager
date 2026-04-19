@@ -27,7 +27,7 @@ class ManageContactSettings extends SettingsPage
         return $schema
             ->components([
                 TextInput::make('email')
-                    ->label('Email')
+                    ->label('Электронная почта')
                     ->email()
                     ->required(),
                 TextInput::make('phone')
@@ -36,10 +36,10 @@ class ManageContactSettings extends SettingsPage
                 TextInput::make('telegram')
                     ->label('Telegram'),
                 TextInput::make('github_url')
-                    ->label('GitHub URL')
+                    ->label('Ссылка GitHub')
                     ->url(),
                 TextInput::make('website_url')
-                    ->label('Website URL')
+                    ->label('Ссылка на сайт')
                     ->url(),
             ]);
     }
